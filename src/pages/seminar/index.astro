@@ -1,9 +1,27 @@
 ---
-import Layout from '@layouts/Layout.astro';
+import Layout from "@layouts/Layout.astro";
+import SeminarCard from "@components/card/SeminarCard.astro";
+import seminars from "@utils/seminars.ts";
 ---
 
 <Layout>
-	<main>
-		
-	</main>
+  <article class="prose w-full flex flex-col p-[25px]">
+    <h2>Seminar</h2>
+  </article>
+  <p class="p-[25px]">
+    세미나를 통해 기술을 공유하고 교류하며 성장합니다. 
+	누구나 세미나를 열 수 있고, 자유롭게 참가할 수 있습니다. 
+	모든 세미나는 PoApper Archive로 관리되며 누구나 열람할 수 있습니다!
+  </p>
+  <div class="py-1/8 px-1/8">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 gap-6 justify-self-center place-items-center place-self-center"
+    >
+      {
+        seminars.seminars.map((seminar) => {
+          return <SeminarCard seminar={seminar} />;
+        })
+      }
+    </div>
+  </div>
 </Layout>
