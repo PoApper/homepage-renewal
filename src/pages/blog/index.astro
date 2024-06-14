@@ -1,9 +1,29 @@
 ---
-import Layout from '@layouts/Layout.astro';
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+
+const projectPosts = await getCollection("project");
 ---
 
 <Layout>
-	<main>
-		
-	</main>
+	<article class="prose p-[25px]">
+		<h2>Blog</h2>
+	</article>
+	<p class="p-[25px]">
+		PoApper 의 기술 블로그 입니다.
+		PoApper 가 사용하는 기술 스택, 프로젝트, 개발 경험 등을 공유합니다.
+	  </p>
+	
+	<article class="prose p-[25px]">
+		<h3>Project</h3>
+	</article>
+	<ul class="list-disc ml-6">
+	{
+		projectPosts.map((post) => (
+		<li>
+			<a href={`/blog/project/${post.slug}`}>{post.data.title}</a>
+		</li>
+		))
+	}
+	</ul>
 </Layout>
