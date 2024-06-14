@@ -1,0 +1,47 @@
+---
+import Links from "@/utils/layout";
+---
+
+<footer
+  class="w-full h-[100px] md:h-[150px] bg-gray-200/50 py-2 md:py-[25px] md:mt-8"
+>
+  <div class="absolute inset-x-0 visible md:invisible my-2">
+    <img
+      class="w-11 mx-auto"
+      src="/logo.png"
+      alt="PoApper Logo"
+    />
+    <p class="font-bold text-center">© 2024 PoApper</p>
+  </div>
+  <div class="invisible md:visible grid grid-cols-4 mr-20">
+    <div>
+      <img
+        class="w-11 mx-auto"
+        src="/logo.png"
+        alt="PoApper Logo"
+      />
+      <p class="font-bold text-center">© 2024 PoApper</p>
+    </div>
+    {
+      Links.footerLinks.map((section) => {
+        return (
+          <div class="mx-auto">
+            <div class="font-bold">{section.section}</div>
+            <div class="md:pt-3">
+              {section.links.map((link, _) => {
+                return (
+                  <div>
+                    <a class="font-bold" href={link.url}>
+                      {link.name}
+                    </a>
+                    <br />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+</footer>
