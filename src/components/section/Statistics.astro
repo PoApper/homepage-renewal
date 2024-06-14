@@ -1,0 +1,86 @@
+---
+import MemberNum from "@components/hook/statistics.MemberNum";
+import RepoNum from "@components/hook/statistics.RepoNum";
+import CommitLog from "@components/hook/statistics.CommitLog";
+---
+
+<div
+  class="absolute inset-x-0 h-fit w-full bg-black p-12 md:p-24 rounded-[36px]"
+>
+  <div class="prose my-8">
+    <h2 class="text-white">Our History</h2>
+  </div>
+  <div class="flex flex-col md:flex-row justify-center md:justify-around my-10">
+    <div>
+      <p class="text-white">Established in</p>
+      <div
+        class="text-4xl font-extrabold bg-gradient-to-r from-[#52B0E4] to-[#F6E565] text-transparent bg-clip-text w-fit"
+      >
+        2010
+      </div>
+    </div>
+    <div>
+      <p class="text-white">Members Present</p>
+      <div
+        class="text-4xl font-extrabold bg-gradient-to-r from-[#F6E565] to-[#E94D4C] text-transparent bg-clip-text w-fit"
+      >
+        <MemberNum client:load/>
+      </div>
+    </div>
+    <div>
+      <p class="text-white">Total Number of Repositories</p>
+      <div
+        class="text-4xl font-extrabold bg-gradient-to-r from-[#E94D4C] to-[#B4D463] text-transparent bg-clip-text w-fit"
+      >
+        <RepoNum client:load/>
+      </div>
+    </div>
+  </div>
+  <div class="border border-solid border-white text-white">
+    <div class="my-2 mx-4 md:my-3 md:mx-6 truncate">
+      <CommitLog client:load />
+    </div>
+  </div>
+</div>
+<!-- This is invisible for absolute. FIXME: There would be better way than this. -->
+<div
+  class="invisible inset-x-0 h-fit w-full bg-black p-12 md:p-24 rounded-[36px]"
+>
+  <div class="prose my-8">
+    <h2 class="text-white">Our History</h2>
+  </div>
+  <div class="flex flex-col md:flex-row justify-center md:justify-around my-10">
+    <div>
+      <p class="text-white">Established in</p>
+      <div
+        class="text-4xl font-extrabold bg-gradient-to-r from-[#52B0E4] to-[#F6E565] text-transparent bg-clip-text w-fit"
+      >
+        2010
+      </div>
+    </div>
+    <div>
+      <p class="text-white">Members Present</p>
+      <div
+        class="text-4xl font-extrabold bg-gradient-to-r from-[#F6E565] to-[#E94D4C] text-transparent bg-clip-text w-fit"
+      >
+        0
+      </div>
+    </div>
+    <div>
+      <p class="text-white">Total Commits in this year</p>
+      <div
+        class="text-4xl font-extrabold bg-gradient-to-r from-[#E94D4C] to-[#B4D463] text-transparent bg-clip-text w-fit"
+      >
+        0
+      </div>
+    </div>
+  </div>
+  <div class="border border-solid border-white text-white">
+    <div class="my-2 mx-4 md:my-3 md:mx-6 truncate">
+      poapper@postech ~ $ git log HEAD~4..HEAD <br />
+      commit 103b9770849503ebcc7d82c36a83e30840395fef<br />
+      Author: Seokyun Ha <br />
+      Regular updates 1 4 7 (#108)
+    </div>
+  </div>
+</div>
