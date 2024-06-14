@@ -1,9 +1,22 @@
 ---
 import Layout from '@layouts/Layout.astro';
+import PersonCard from '@components/card/PersonCard.astro';
+import people from '@utils/people.ts';
 ---
 
 <Layout>
-	<main>
-		
-	</main>
+	<article class="prose p-[25px]">
+		<h2>People</h2>
+	</article>
+	<div class="py-1/8 px-1/8">
+		<div
+			class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-self-center place-items-center place-self-center"
+		>
+			{
+			people.people.map((person) => {
+				return <PersonCard person={person} />;
+			})
+			}
+		</div>
+	</div>
 </Layout>
