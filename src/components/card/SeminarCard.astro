@@ -8,11 +8,11 @@ const { seminar } = Astro.props;
       return (
         <div class="transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-300">
           <div class="pl-2">{seminar.name} Seminar</div>
-          <div class="transision delay-100 w-[400px] md:w-[500px] bg-[#f0f0f0] hover:bg-[#f0f0f0]/50 rounded-[10px] flex justify-around">
+          <div class="transision delay-100 w-[280px] sm:w-[400px] md:w-[500px] bg-[#f0f0f0] hover:bg-[#f0f0f0]/50 rounded-[10px] flex justify-around">
             {seminar.images.map((src) => {
               return (
                 <img
-                  class="w-[100px] md:w-[150px] py-[20px] px-[20px]"
+                  class="w-[80px] sm:w-[100px] md:w-[150px] py-[20px] px-[20px]"
                   src={`../../../${src}`}
                 />
               );
@@ -25,11 +25,11 @@ const { seminar } = Astro.props;
         <a href={seminar.url} target="_blank" rel="noopener noreferrer">
           <div class="transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-300">
             <div class="pl-2">{seminar.name} Seminar</div>
-            <div class="transision delay-100 w-[400px] md:w-[500px] bg-[#f0f0f0] hover:bg-[#f0f0f0]/50 rounded-[10px] flex justify-around">
-              {seminar.images.map((src, index) => {
+            <div class="transision delay-100 w-[280px] sm:w-[400px] md:w-[500px] bg-[#f0f0f0] hover:bg-[#f0f0f0]/50 rounded-[10px] flex justify-around">
+              {seminar.images.map((src) => {
                 return (
                   <img
-                    class="w-[100px] md:w-[150px] py-[20px] px-[20px]"
+                    class="w-[80px] sm:w-[100px] md:w-[150px] py-[20px] px-[20px]"
                     src={`../../../${src}`}
                   />
                 );
