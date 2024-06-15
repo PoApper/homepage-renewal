@@ -1,9 +1,9 @@
 ---
-
+import BubbleWrapper from "@components/hook/hero.Bubbles"
 ---
 
-<div class="h-dvh flex justify-around">
-  <div class="relative flex flex-col justify-center">
+<div class="h-dvh flex flex-col md:flex-row justify-around">
+  <div class="relative flex flex-col justify-center mx-auto">
     <div
       class="text-4xl font-extrabold bg-gradient-to-r from-[#E94D4C] to-[#52B0E4] text-transparent bg-clip-text mr-auto"
     >
@@ -20,8 +20,7 @@
     </a>
     <div class="h-1/4"></div>
   </div>
-  <div class="flex flex-col justify-center">
-    Bubble part
-    <div class="h-1/4"></div>
+  <div class="flex flex-col justify-center h-3/4">
+      <BubbleWrapper client:load/>
   </div>
 </div>
