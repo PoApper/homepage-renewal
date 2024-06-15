@@ -20,8 +20,12 @@ const projectPosts = await getCollection("project");
 	<ul class="list-disc ml-6">
 	{
 		projectPosts.map((post) => (
-		<li>
-			<a href={`/blog/project/${post.slug}`}>{post.data.title}</a>
+		<li class="hover:underline">
+			<a href={`/blog/project/${post.slug}`}>
+				[{post.data.postDate.toISOString().slice(0,10)}]
+				{post.data.title}
+				by {post.data.writer}
+			</a>
 		</li>
 		))
 	}

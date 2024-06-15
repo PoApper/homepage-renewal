@@ -3,15 +3,16 @@ import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import Layout from "@layouts/Layout.astro";
+import BlogTag from "@components/tag/blogTag.astro";
 
 type Props = {
   post: CollectionEntry<"project">;
 };
 
 export const getStaticPaths = (async () => {
-  const projectEntries = await getCollection("project");
+  const projectPosts = await getCollection("project");
 
-  return projectEntries.map((post) => ({
+  return projectPosts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
   }));
@@ -19,17 +20,29 @@ export const getStaticPaths = (async () => {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
-const { title, description, startDate, members } = post.data;
+const { title, tags, postDate, writer, writer_email } = post.data;
 ---
 
 <Layout>
-  <article class="prose">
-    <h2>{title}</h2>
-    <p>{description}</p>
-    <p>{startDate}</p>
-    <p>{members}</p>
-    <div>
-      <Content />
+  <div class="my-5">
+    <div class="flex justify-evenly">
+      <article class="prose text-center">
+        <h2 class="m-[0px]">{title}</h2>
+        <p class="m-[0px]">{postDate.toISOString().slice(0,10)}</p> 
+        <a href={`mailto:${writer_email}`}>
+          <p class="m-[0px]">{writer}</p>
+        </a>
+      </article>
     </div>
-  </article>
+      
+    <div class="flex justify-center my-2">
+      <p>{tags.map((tag) => {return(<BlogTag tag={tag} />)})}</p>
+    </div>
+  </div>
+
+  <div class="flex justify-center">
+    <article class="prose text-xm">
+      <Content />
+    </article>
+  </div>
 </Layout>

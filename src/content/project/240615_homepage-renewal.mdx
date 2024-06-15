@@ -1,0 +1,42 @@
+---
+title: Homepage Renewal
+tags: ['astro', 'tailwindcss', 'blog']
+postDate: 2024-06-15
+writer: "@hyojeongyunn"
+writer_email: "hyojeong.yun@postech.ac.kr"
+---
+
+### Problem of existing homepage
+1. Gatsby's limitation
+2. 홈페이지 인수인계를 받은 사람이나, 관리하는 사람이 없음.  
+    a. 2년째 동일한 명단  
+    b. 동아리에서 운영하는 활동이 변경됨에도 불구하고 홈페이지에 반영하려면, 직접 코드를 수정해야함.
+3. poapper-api 로 관리되는 백엔드 서버를 계속해서 관리해줄 사람의 부재.
+
+### Renewal
+Goal: Migration to Astro from Gatsby
+
+1. Selecting Framework  
+Candidate lists:
+    - [Docusaurus](https://docusaurus.io/)
+    - [Astro](https://astro.build/)
+    - [Retype](https://retype.com/)
+    - [Nuxt](https://nuxt.com/templates)
+
+2. Collecting Reference Design
+- https://screwfast.uk/services 
+- https://astro-theme-mia.pages.dev/
+
+3. Design  
+[Figma](https://www.figma.com/design/6YupXVPeF1R4g3161Nfi3L/homepage-renewal?node-id=1-2&m=dev)
+
+---
+
+Execute on your local
+
+Make sure your node version is >= `18.14.0{:bash}`.
+
+```bash
+$ npm install
+$ npm run dev
+```
