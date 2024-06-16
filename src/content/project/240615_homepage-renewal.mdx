@@ -1,42 +1,94 @@
 ---
-title: Homepage Renewal
-tags: ['astro', 'tailwindcss', 'blog']
-postDate: 2024-06-15
+title: Club Homepage Renewal
+tags: ['astro', 'blog']
+postDate: 2024-06-16
 writer: "@hyojeongyunn"
 writer_email: "hyojeong.yun@postech.ac.kr"
 ---
 
+본 글은 이번 홈페이지 리뉴얼 과정을 정리하는 글이자, 본 홈페이지 관리를 위한 [가이드라인](#guideline)이다.
+
 ### Problem of existing homepage
-1. Gatsby's limitation
-2. 홈페이지 인수인계를 받은 사람이나, 관리하는 사람이 없음.  
-    a. 2년째 동일한 명단  
-    b. 동아리에서 운영하는 활동이 변경됨에도 불구하고 홈페이지에 반영하려면, 직접 코드를 수정해야함.
-3. poapper-api 로 관리되는 백엔드 서버를 계속해서 관리해줄 사람의 부재.
+홈페이지 인수인계/관리 X
+- 2년째 동일한 구성원 명단  
+- 2년째 동일한 세미나 리스트  
+- 2년째 동일한 동아리 활동 리스트
 
 ### Renewal
-Goal: Migration to Astro from Gatsby
+Goal
+- 동아리 홈페이지 관리의 용이성 제고
+- 기술 블로그 작성을 통한 동아리 홍보 제고
 
+#### Procedure
 1. Selecting Framework  
-Candidate lists:
     - [Docusaurus](https://docusaurus.io/)
+        - pros: easy-setup, customizable, markdown-based, react-based
+        - cons: limited to documentation
     - [Astro](https://astro.build/)
+        - pros: [island architecture](https://jasonformat.com/islands-architecture/), markdown-based, static site generator, SEO-friendly
+        - cons: newer framework, smaller community than others
     - [Retype](https://retype.com/)
-    - [Nuxt](https://nuxt.com/templates)
+        - pros: easy-setup, markdown-based, minimal configuration
+        - cons: limited flexibility, limited to documentation, smaller community than others
+
+=> 위 세 가지 중에서, mdx, react 등의 프레임워크를 지원하고, 스타일 구성이 제일 자유롭다고 판단되는 `Astro{:sh}`를 선택하였다.
+또한, `Astro{:sh}`가 `island architecture{:js}`를 지원하고 있다는 점이 흥미롭기도 했다.
+
 
 2. Collecting Reference Design
 - https://screwfast.uk/services 
 - https://astro-theme-mia.pages.dev/
 
-3. Design  
+참고한 디자인 양식은 위와 같다.
+
+3. Design & Functionality  
+
+다음은 디자인과 이번 홈페이지 리뉴얼에서 손 본 기능의 나열이다.
+- Design:
 [Figma](https://www.figma.com/design/6YupXVPeF1R4g3161Nfi3L/homepage-renewal?node-id=1-2&m=dev)
+    - 디자인은 Figma 를 활용하여 진행하였다. 해당 Figma 는 Draft 로 현재 디자인과 차이가 있음을 밝힌다.
+
+- Functionality
+    - 구성원 명단 관리: 백엔드 서버를 거치지 않고, Github의 REST API를 활용하여 프론트엔드에서 관리.
+    - 세미나 리스트, 동아리 활동 관리: 고정된 세미나 리스트를 프론트 단에서 변수 변경을 통해 동적으로 변경할 수 있도록 구현. (`utils{:sh}` 폴더 참고)
+    - 기술 블로그: mdx 를 지원하는 블로그 기능을 추가.
+    - responsive design
+
+4. Development  
+
+팀 구성을 시도하였으나, 구성원 관심의 저조로 인해 개인 개발로 진행하였다.  
+참고한 document 는 다음과 같다.  
+- [Astro](https://docs.astro.build/)
+- [Tailwind](https://tailwindcss.com/docs/installation)
+
+다음은 전체적인 개발 스케줄이다.
+- Schedule
+    - 6/9: 현 홈페이지의 문제점과 관련하여 기존 홈페이지 개발에 참여한 동아리 멤버와 논의 후, 새로운 프레임 워크에서 처음부터 손보기로 결정.
+    - 6/11-12: Figma 로 디자인 초안 제작.
+    - 6/12-16: 개발 진행 및 종료.
 
 ---
 
-Execute on your local
+<h3 id="guideline">홈페이지 관리 가이드라인</h3>
 
-Make sure your node version is >= `18.14.0{:bash}`.
+모든 삭제/변경/추가 후, 로컬에서 변경사항을 확인할 것.
 
-```bash
+0. 로컬에서 실행
+```sh
 $ npm install
 $ npm run dev
 ```
+
+1. 동아리 명단 변경  
+    `src/utils/people.ts` 에서 변경.
+2. 세미나 리스트 변경  
+    `src/utils/seminars.ts` 에서 변경.
+3. 동아리 활동 리스트 변경  
+    `src/utils/activities.ts` 에서 변경.
+4. 블로그 글 작성  
+    `src/content/{알맞은 카테고리}` mdx 파일을 추가하여 작성. 이때, 해당 카테고리에서 작성된 다른 글을 참고하여, schema 정보를 추가할 것.
+5. 블로그 카테고리 추가  
+    이 모든 과정은 `dummy_category` 를 참고할 수 있음.
+    1. `src/content/` 에서 폴더 생성.
+    2. `src/content/config.ts` 에서 해당 카테고리에서 설정할 schema 정보 추가.
+    3. `src/pages/blog/` 에 1번 과정에서 생성한 폴더 명과 동일한 폴더명 추가 후 해당 폴더에 `[slug].astro` 파일 생성. 이때, 파일의 내용은 동일한 이름의 다른 파일을 참고.
