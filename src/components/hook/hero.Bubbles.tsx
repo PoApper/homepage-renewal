@@ -182,6 +182,10 @@ const Bubbles: React.FC<{
           </a>
         ))}
       </svg>
+      <div
+        id="bubble-tooltip"
+        className="absolute top-0 left-0 hidden p-2 text-xs bg-white rounded-lg shadow-md">
+      </div>
     </>
   );
 };
