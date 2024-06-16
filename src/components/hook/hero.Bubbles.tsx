@@ -146,7 +146,7 @@ const Bubbles: React.FC<{
         bubbles.attr("transform", d => `translate(${d.x}, ${d.y})`)
       })
       .alphaTarget(0.1) // Do not stop the simulation
-  }, [nodes])
+  }, [members])
 
   return (
     <>
