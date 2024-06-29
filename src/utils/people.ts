@@ -1,31 +1,15 @@
 const junior = [
-  { githubId: "github1", tag: "front-end" },
-  { githubId: "github2", tag: "back-end" },
-  { githubId: "github3", tag: "full-stack" },
-  { githubId: "github4", tag: "ios" },
-  { githubId: "github5", tag: "android" },
-  { githubId: "github6", tag: "ai" },
-  { githubId: "github7", tag: "security" },
-  { githubId: "github8", tag: "blockchain" },
-  { githubId: "github9", tag: "game" },
-  { githubId: "github10", tag: "etc" },
-  { githubId: "github11", tag: "etc" },
-  { githubId: "github12", tag: "etc" },
+  { githubId: "0917ba", tag: [""] },
 ];
 
 const senior = [
-  { githubId: "github1", tag: "front-end" },
-  { githubId: "github2", tag: "back-end" },
-  { githubId: "github3", tag: "full-stack" },
-  { githubId: "github4", tag: "ios" },
-  { githubId: "github5", tag: "android" },
-  { githubId: "github6", tag: "ai" },
-  { githubId: "github7", tag: "security" },
-  { githubId: "github8", tag: "blockchain" },
-  { githubId: "github9", tag: "game" },
-  { githubId: "github10", tag: "etc" },
-  { githubId: "github11", tag: "etc" },
-  { githubId: "github12", tag: "etc" },
+  { githubId: "sohnryang", tag: ["systems"] },
+  { githubId: "mgnam", tag: [""] },
+  { githubId: "hanmyeonglee", tag: [""] },
+  { githubId: "khkim6040", tag: ["cloud"] },
+  { githubId: "kce0622", tag: [""] },
+  { githubId: "BlueHorn07", tag: ["K8s_Lover","Opensource", "Contributor"]} ,
+  { githubId: "hyojeongyunn", tag: [""] },
 ];
 
 export default {
