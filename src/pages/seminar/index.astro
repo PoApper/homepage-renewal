@@ -51,9 +51,16 @@ import seminars from "@utils/seminars.ts";
                     [{seminar.date}] {seminar.title} by 
                     {
                       seminar.name.map((person, i) => (
-                        <a  href={`https://github.com/${person[1]}`} class="hover:underline">@{person[1] === "" ? person[0] : person[1]}</a><span class="text-white">|</span>
+                        <a href={`https://github.com/${person[1]}`} 
+                           class="hover:underline" target="_blank"
+                           rel="noopener noreferrer">@{person[1] === "" ? person[0] : person[1]}</a>
+                        <span class="text-white">|</span>
                       ))
                     }
+                    <a href={seminar.pdfUrl} 
+                       class="rounded-[36px] px-3 bg-[#B4D463] text-white text-sm font-extrabold italic" 
+                       target="_blank"
+                        rel="noopener noreferrer">slide</a>
                   </li>)
         })
       }
