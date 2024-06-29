@@ -17,11 +17,10 @@ import people from '@utils/people.ts';
 			class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-self-center place-items-center place-self-center"
 		>
 			{
-			people.junior.map((person) => {
+			people.senior.map((person) => {
 				return <PersonCard person={person} />;
 			})
 			}
-		</div>
 	</div>
 
 	<article class="prose p-[25px]">
