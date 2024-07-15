@@ -16,7 +16,7 @@ const { person } = Astro.props;
       src=`https://avatars.githubusercontent.com/${person.githubId}`
     />
       {
-        person.tag.map((tag) => (
+        person.tag.map((tag: string) => (
           <PeopleTag tag={tag}/>
         ))
       }
