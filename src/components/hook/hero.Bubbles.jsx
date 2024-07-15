@@ -7,52 +7,26 @@ import {
   forceX,
   forceY,
   select,
-  selectAll,
+  selectAll
 } from "d3";
-import type {SimulationNodeDatum} from "d3";
-
-// Define the shape of the data returned by the API
-interface GithubMember {
-  avatar_url : string;
-  login: string;
-  html_url: string;
-}
-
-interface Node extends SimulationNodeDatum {
-  index: number;
-  radius: number;
-  x: number;
-  y: number;
-  to: string;
-  img: string;
-  imgSize: number;
-  name: string;
-}
 
 // A clip path is used to display the image as a circle
-const BubbleClipPath: React.FC<{ r: number; id: string }> = ({ r, id, ...props }) => (
+const BubbleClipPath = ({ r, id, ...props }) => (
   <clipPath id={id}>
     <circle r={r} {...props}/>
   </clipPath>
 );
 
 // Main component
-const Bubbles: React.FC<{
-  members: GithubMember[];
-  width: number;
-  height: number;
-  svgWidth?: number;
-  svgHeight?: number;
-  config?: { hoverScale: number; imgSize: number };
-}> = ({
+const Bubbles = ({
   members,
   width,
   height,
-  svgWidth = 700,
-  svgHeight = 700,
+  svgWidth = 800,
+  svgHeight = 800,
   config = { hoverScale: 1.15, imgSize: 100 },
 }) => {
-  const nodes: Node[] = members.map((member, i) => ({
+  const nodes = members.map((member, i) => ({
     index: i,
     radius: Math.floor(Math.random() * 30 + 40),
     x: Math.floor(Math.random() * svgWidth),
@@ -146,7 +120,7 @@ const Bubbles: React.FC<{
         bubbles.attr("transform", d => `translate(${d.x}, ${d.y})`)
       })
       .alphaTarget(0.1) // Do not stop the simulation
-  }, [members])
+  }, [nodes])
 
   return (
     <>
@@ -182,16 +156,12 @@ const Bubbles: React.FC<{
           </a>
         ))}
       </svg>
-      <div
-        id="bubble-tooltip"
-        className="absolute top-0 left-0 hidden p-2 text-xs bg-white rounded-lg shadow-md">
-      </div>
     </>
   );
 };
 
 const BubbleWrapper = () => {
-    const [members, setMembers] = useState<GithubMember[]>([]);
+    const [members, setMembers] = useState([]);
     const token = import.meta.env.PUBLIC_GITTOKEN;
     const octokit = new Octokit({ auth: token });
     useEffect(() => {
@@ -200,7 +170,7 @@ const BubbleWrapper = () => {
         .then(({ data }) => setMembers(data));
     }, []);
     
-    return <Bubbles members={members} width={100} height={100}/>
+    return <Bubbles members={members} width={100} height={100} client:load/>
 }
 
 export default BubbleWrapper;
