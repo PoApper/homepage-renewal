@@ -1,0 +1,65 @@
+on:
+  push:
+  release:
+    types: [published]
+
+name: Docker Build and Push
+
+env:
+  ECR_REGISTRY: 151345152001.dkr.ecr.ap-northeast-2.amazonaws.com
+  ECR_REPOSITORY: poapper-homepage
+
+jobs:
+  docker_build_and_push:
+    name: Docker build and push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: 'arm64' # support AWS EC2 t4g
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          mask-password: 'true'
+      - name: Determine Prod/Dev Stage
+        run: |
+          if [[ ${{ github.event_name }} == 'release' ]]; then
+            echo "PROD"
+            echo "IMAGE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+          else
+            echo "DEV"
+            echo "IMAGE_TAG=latest" >> $GITHUB_ENV
+          fi
+      - name: Build and Push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/arm64 # support AWS EC2 t4g
+          tags: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: true
+
+  deploy_health_check:
+    name: Check Application Status
+    needs: docker_build_and_push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the deployed service URL
+        uses: jtalk/url-health-check-action@v4
+        with:
+          url: https://poapper.club
+          follow-redirect: true
+          max-attempts: 3
+          retry-delay: 10s
