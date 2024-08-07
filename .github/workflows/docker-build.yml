@@ -1,7 +1,6 @@
 on:
   push:
-  release:
-    types: [published]
+    branches: [ main ]
 
 name: Docker Build and Push
 
@@ -32,15 +31,10 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
         with:
           mask-password: 'true'
-      - name: Determine Prod/Dev Stage
+      - name: Set up environment
         run: |
-          if [[ ${{ github.event_name }} == 'release' ]]; then
             echo "PROD"
-            echo "IMAGE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
-          else
-            echo "DEV"
             echo "IMAGE_TAG=latest" >> $GITHUB_ENV
-          fi
       - name: Build and Push
         uses: docker/build-push-action@v5
         with:

@@ -18,5 +18,5 @@ export default defineConfig({
   adapter: node({
     mode: "standalone"
   }),
-  site: 'https://poapper.club/'
+  site: 'https://poapper.club'
 });
