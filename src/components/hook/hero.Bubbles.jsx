@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Octokit } from '@octokit/rest'
 import {
   forceCollide,
@@ -20,8 +20,6 @@ const BubbleClipPath = ({ r, id, ...props }) => (
 // Main component
 const Bubbles = ({
   members,
-  width,
-  height,
   svgWidth = 800,
   svgHeight = 800,
   config = { hoverScale: 1.15, imgSize: 100 },
@@ -170,7 +168,7 @@ const BubbleWrapper = () => {
       .then(({ data }) => setMembers(data))
   }, [])
 
-  return <Bubbles members={members} width={100} height={100} client:load />
+  return <Bubbles members={members} client:load />
 }
 
 export default BubbleWrapper

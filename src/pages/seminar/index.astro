@@ -54,7 +54,7 @@ import seminars from '@utils/seminars.ts'
             return (
               <li class="p-1">
                 [{seminar.date}] {seminar.title} by
-                {seminar.name.map((person, i) => (
+                {seminar.name.map((person) => (
                   <>
                     <a
                       href={`https://github.com/${person[1]}`}
