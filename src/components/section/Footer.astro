@@ -1,6 +1,6 @@
 ---
 import Links from '@/utils/layout'
-const sha = (import.meta.env.PUBLIC_COMMIT_SHA ?? 'local')
+const sha = import.meta.env.PUBLIC_COMMIT_SHA ?? 'local'
 const url = `https://github.com/PoApper/homepage-renewal/commit/${sha}`
 const shortSha = sha.slice(0, 7)
 ---
@@ -24,7 +24,12 @@ const shortSha = sha.slice(0, 7)
       <p class="font-bold text-center">© 2024 PoApper</p>
       <p class="text-center text-xs text-gray-500">
         commit:
-        <a href={url} target="_blank" rel="noopener noreferrer" class="underline">
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="underline"
+        >
           {shortSha}
         </a>
       </p>

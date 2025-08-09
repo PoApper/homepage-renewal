@@ -10,7 +10,7 @@ env:
 
 jobs:
   lint:
-    name: Lint
+    name: Format and Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
