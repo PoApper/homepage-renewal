@@ -1,40 +1,41 @@
 ---
-import Layout from '@layouts/Layout.astro';
-import PersonCard from '@components/card/PersonCard.astro';
-import people from '@utils/people.ts';
+import Layout from '@layouts/Layout.astro'
+import PersonCard from '@components/card/PersonCard.astro'
+import people from '@utils/people.ts'
 ---
 
 <Layout>
-	<article class="prose p-[25px]">
-		<h2>People</h2>
-	</article>
-	
-	<article class="prose p-[25px]">
-		<h3>Senior</h3>
-	</article>
-	<div class="py-1/8 px-1/8">
-		<div
-			class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-self-center place-items-stretch place-self-center"
-		>
-			{
-			people.senior.map((person) => {
-				return <PersonCard person={person} />;
-			})
-			}
-	</div>
+  <article class="prose p-[25px]">
+    <h2>People</h2>
+  </article>
 
-	<article class="prose p-[25px]">
-		<h3>Junior</h3>
-	</article>
-	<div class="py-1/8 px-1/8">
-		<div
-			class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-self-center place-items-stretch place-self-center"
-		>
-			{
-			people.junior.map((person) => {
-				return <PersonCard person={person} />;
-			})
-			}
-		</div>
-	</div>
-</Layout>
+  <article class="prose p-[25px]">
+    <h3>Senior</h3>
+  </article>
+  <div class="py-1/8 px-1/8">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-self-center place-items-stretch place-self-center"
+    >
+      {
+        people.senior.map((person) => {
+          return <PersonCard person={person} />
+        })
+      }
+    </div>
+
+    <article class="prose p-[25px]">
+      <h3>Junior</h3>
+    </article>
+    <div class="py-1/8 px-1/8">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-self-center place-items-stretch place-self-center"
+      >
+        {
+          people.junior.map((person) => {
+            return <PersonCard person={person} />
+          })
+        }
+      </div>
+    </div>
+  </div></Layout
+>

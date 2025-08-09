@@ -1,5 +1,5 @@
 ---
-import Links from "@/utils/layout";
+import Links from '@/utils/layout'
 ---
 
 <header class="sticky my-4 top-4 z-50">
@@ -13,10 +13,12 @@ import Links from "@/utils/layout";
       {
         Links.navBarLinks.map((link) => {
           return (
-              <a
-                class="transision ease-in-out delay-100 duration-300 hover:text-[#FFFFFF] pr-[10px] font-bold underline"
-                href={link.url}
-              >{link.name}</a>
+            <a
+              class="transision ease-in-out delay-100 duration-300 hover:text-[#FFFFFF] pr-[10px] font-bold underline"
+              href={link.url}
+            >
+              {link.name}
+            </a>
           )
         })
       }

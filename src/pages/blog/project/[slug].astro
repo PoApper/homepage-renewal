@@ -1,27 +1,27 @@
 ---
-export const prerender = true;
-import type { GetStaticPaths } from "astro";
-import { getCollection } from "astro:content";
-import type { CollectionEntry } from "astro:content";
-import Layout from "@layouts/Layout.astro";
-import BlogTag from "@components/tag/blogTag.astro";
+export const prerender = true
+import type { GetStaticPaths } from 'astro'
+import { getCollection } from 'astro:content'
+import type { CollectionEntry } from 'astro:content'
+import Layout from '@layouts/Layout.astro'
+import BlogTag from '@components/tag/blogTag.astro'
 
 type Props = {
-  post: CollectionEntry<"project">;
-};
+  post: CollectionEntry<'project'>
+}
 
 export const getStaticPaths = (async () => {
-  const projectPosts = await getCollection("project");
+  const projectPosts = await getCollection('project')
 
   return projectPosts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
-  }));
-}) satisfies GetStaticPaths;
+  }))
+}) satisfies GetStaticPaths
 
-const { post } = Astro.props;
-const { Content } = await post.render();
-const { title, tags, postDate, writer, writer_email } = post.data;
+const { post } = Astro.props
+const { Content } = await post.render()
+const { title, tags, postDate, writer, writer_email } = post.data
 ---
 
 <Layout>
@@ -29,15 +29,21 @@ const { title, tags, postDate, writer, writer_email } = post.data;
     <div class="flex justify-evenly">
       <article class="prose text-center">
         <h2 class="m-[0px]">{title}</h2>
-        <p class="m-[0px]">{postDate.toISOString().slice(0,10)}</p> 
+        <p class="m-[0px]">{postDate.toISOString().slice(0, 10)}</p>
         <a href={`mailto:${writer_email}`}>
           <p class="m-[0px]">{writer}</p>
         </a>
       </article>
     </div>
-      
+
     <div class="flex justify-center my-2">
-      <p>{tags.map((tag) => {return(<BlogTag tag={tag} />)})}</p>
+      <p>
+        {
+          tags.map((tag) => {
+            return <BlogTag tag={tag} />
+          })
+        }
+      </p>
     </div>
   </div>
 

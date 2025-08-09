@@ -1,12 +1,10 @@
 ---
-import MemberNum from "@components/hook/statistics.MemberNum";
-import RepoNum from "@components/hook/statistics.RepoNum";
-import CommitLog from "@components/hook/statistics.CommitLog";
+import MemberNum from '@components/hook/statistics.MemberNum'
+import RepoNum from '@components/hook/statistics.RepoNum'
+import CommitLog from '@components/hook/statistics.CommitLog'
 ---
 
-<div
-  class="absolute inset-x-0 h-fit w-full bg-black p-12 md:p-24"
->
+<div class="absolute inset-x-0 h-fit w-full bg-black p-12 md:p-24">
   <div class="prose my-8">
     <h2 class="text-white">Our History</h2>
   </div>
@@ -24,7 +22,7 @@ import CommitLog from "@components/hook/statistics.CommitLog";
       <div
         class="text-4xl font-extrabold bg-gradient-to-r from-[#F6E565] to-[#E94D4C] text-transparent bg-clip-text w-fit"
       >
-        <MemberNum client:load/>
+        <MemberNum client:load />
       </div>
     </div>
     <div>
@@ -32,7 +30,7 @@ import CommitLog from "@components/hook/statistics.CommitLog";
       <div
         class="text-4xl font-extrabold bg-gradient-to-r from-[#E94D4C] to-[#B4D463] text-transparent bg-clip-text w-fit"
       >
-        <RepoNum client:load/>
+        <RepoNum client:load />
       </div>
     </div>
   </div>
