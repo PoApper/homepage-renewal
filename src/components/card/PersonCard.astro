@@ -1,6 +1,6 @@
 ---
-import PeopleTag from "@components/tag/peopleTag.astro";
-const { person } = Astro.props;
+import PeopleTag from '@components/tag/peopleTag.astro'
+const { person } = Astro.props
 ---
 
 <div
@@ -15,11 +15,7 @@ const { person } = Astro.props;
       class="w-4/6 mx-auto my-[20px] rounded-[20px]"
       src=`https://avatars.githubusercontent.com/${person.githubId}`
     />
-      {
-        person.tag.map((tag: string) => (
-          <PeopleTag tag={tag}/>
-        ))
-      }
+    {person.tag.map((tag: string) => <PeopleTag tag={tag} />)}
     <div class="text-center pb-[15px] hover:underline">@{person.githubId}</div>
   </a>
 </div>
