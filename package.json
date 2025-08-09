@@ -8,7 +8,6 @@
     "lint": "astro check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "astro check",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"

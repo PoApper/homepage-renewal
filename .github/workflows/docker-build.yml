@@ -10,11 +10,13 @@ env:
 
 jobs:
   lint:
-    name: Lint
+    name: Format and Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Format
+        run: npm run format
       - name: Lint
         run: npm run lint
   docker_build_and_push:
