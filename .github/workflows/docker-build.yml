@@ -10,17 +10,16 @@ env:
 
 jobs:
   lint:
-    name: Format and Lint
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Format
-        run: npm run format
       - name: Lint
-        run: npm run lint
+        run: npm run lint # TODO: format check 추가 필요 -> prettier 의존성 추가해야 함
   docker_build_and_push:
     name: Docker build and push
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
