@@ -12,11 +12,19 @@ RUN npm ci --omit=dev && \
 FROM base AS build-deps
 RUN npm ci
 
+# Build-time commit SHA (optional)
+ARG PUBLIC_COMMIT_SHA=""
+ENV PUBLIC_COMMIT_SHA=${PUBLIC_COMMIT_SHA}
+
 FROM build-deps AS build
 COPY . .
+# Ensure env is available to the build (Astro reads import.meta.env.PUBLIC_*)
+ENV PUBLIC_COMMIT_SHA=${PUBLIC_COMMIT_SHA}
 RUN npm run build
 
 FROM base AS runtime
+# Persist commit SHA in runtime
+ENV PUBLIC_COMMIT_SHA=${PUBLIC_COMMIT_SHA}
 COPY --from=prod-deps /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 
