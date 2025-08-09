@@ -7,7 +7,7 @@ COPY package.json package-lock.json ./
 
 FROM base AS prod-deps
 RUN npm ci --omit=dev && \
-    npm cache clean --forc
+    npm cache clean --force
 
 FROM base AS build-deps
 RUN npm ci
