@@ -1,4 +1,4 @@
-FROM node:lts AS base
+FROM node:lts-alpine AS base
 WORKDIR /app
 
 # By copying only the package.json and package-lock.json here, we ensure that the following `-deps` steps are independent of the source code.
@@ -6,10 +6,11 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 FROM base AS prod-deps
-RUN npm install --omit=dev
+RUN npm ci --omit=dev && \
+    npm cache clean --force
 
 FROM base AS build-deps
-RUN npm install
+RUN npm ci
 
 FROM build-deps AS build
 COPY . .
@@ -19,7 +20,13 @@ FROM base AS runtime
 COPY --from=prod-deps /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 
+# Set environment variables
+ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=4321
+
+# Expose port
 EXPOSE 4321
-CMD node ./dist/server/entry.mjs
+
+# Use JSON array format for CMD (best practice)
+CMD ["node", "./dist/server/entry.mjs"]
