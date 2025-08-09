@@ -6,8 +6,8 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 FROM base AS prod-deps
-RUN npm ci --only=production --omit=dev && \
-    npm cache clean --force
+RUN npm ci --omit=dev && \
+    npm cache clean --forc
 
 FROM base AS build-deps
 RUN npm ci
@@ -19,10 +19,6 @@ RUN npm run build
 FROM base AS runtime
 COPY --from=prod-deps /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
-
-# Remove unnecessary files to reduce image size
-RUN rm -rf /app/node_modules/.cache && \
-    rm -rf /app/node_modules/npm
 
 # Set environment variables
 ENV NODE_ENV=production
