@@ -2,25 +2,28 @@
 import BubbleWrapper from '@/components/hook/hero.Bubbles'
 ---
 
-<div class="h-dvh flex flex-col md:flex-row justify-around">
+<div
+  class="min-h-[60svh] flex flex-col md:flex-row items-center justify-between gap-10 py-10"
+>
   <div class="relative flex flex-col justify-center mx-auto">
     <div
-      class="text-4xl font-extrabold bg-gradient-to-r from-[#E94D4C] to-[#52B0E4] text-transparent bg-clip-text mr-auto"
+      class="text-6xl md:text-7xl font-extrabold bg-gradient-to-r from-[#E94D4C] to-[#52B0E4] text-transparent bg-clip-text mr-auto"
     >
       PoApper
     </div>
-    <div class="text-2xl font-bold pb-2">POSTECH 개발자 네트워크</div>
+    <div class="text-3xl md:text-4xl font-bold pb-4">
+      POSTECH 개발자 네트워크
+    </div>
     <a
       href="https://github.com/PoApper"
       target="_blank"
       rel="noopener noreferrer"
-      class="transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-105 duration-300 bg-black hover:bg-gray text-white rounded-[20px] h-[35px] w-[100px]"
+      class="transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-105 duration-300 bg-black hover:bg-gray text-white rounded-[20px] h-[48px] w-[144px]"
     >
-      <div class="h-full flex justify-center py-1">Github</div>
+      <div class="h-full flex items-center justify-center">Github</div>
     </a>
-    <div class="h-1/4"></div>
   </div>
-  <div class="flex flex-col justify-center h-3/4">
+  <div class="flex flex-col justify-center">
     <BubbleWrapper client:load />
   </div>
 </div>

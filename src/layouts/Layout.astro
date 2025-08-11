@@ -10,9 +10,16 @@ import Footer from '@components/section/Footer.astro'
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>PoApper</title>
+    <!-- Pretendard Variable (CDN) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"
+    />
     <script is:inline></script>
   </head>
-  <body class="font">
+  <body
+    class="font-sans antialiased text-[17px] leading-[1.65] tracking-[-0.01em] selection:bg-blue-200 selection:text-gray-900"
+  >
     <div class="flex flex-col h-screen justify-between">
       <Navbar />
       <main class="mb-auto mx-4 md:mx-24 my:1 md:my-4">
