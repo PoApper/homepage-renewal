@@ -2,11 +2,11 @@
 const { imageUrl, description } = Astro.props
 ---
 
-<div class="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-4">
+<div class="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-6 md:gap-8">
   <div class="flex justify-center">
-    <img class="w-[150px]" src={imageUrl} />
+    <img class="w-[180px] md:w-[220px]" src={imageUrl} />
   </div>
-  <div class="my-auto">
+  <div class="my-auto text-base md:text-lg leading-relaxed">
     {description}
   </div>
 </div>

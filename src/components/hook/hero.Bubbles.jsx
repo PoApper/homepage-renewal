@@ -20,13 +20,13 @@ const BubbleClipPath = ({ r, id, ...props }) => (
 // Main component
 const Bubbles = ({
   members,
-  svgWidth = 800,
-  svgHeight = 800,
-  config = { hoverScale: 1.15, imgSize: 100 },
+  svgWidth = 900,
+  svgHeight = 900,
+  config = { hoverScale: 1.15, imgSize: 140 },
 }) => {
   const nodes = members.map((member, i) => ({
     index: i,
-    radius: Math.floor(Math.random() * 30 + 40),
+    radius: Math.floor(Math.random() * 30 + 50),
     x: Math.floor(Math.random() * svgWidth),
     y: Math.floor(Math.random() * svgHeight),
     to: member.html_url,

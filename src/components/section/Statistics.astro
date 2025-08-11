@@ -6,31 +6,33 @@ import CommitLog from '@components/hook/statistics.CommitLog'
 
 <section class="w-full bg-black p-12 md:p-24 rounded-none md:rounded-[36px]">
   <div class="prose my-8">
-    <h2 class="text-white">Our History</h2>
+    <h2 class="text-white text-3xl md:text-4xl">Our History</h2>
   </div>
   <div
-    class="flex flex-col md:flex-row justify-center md:justify-around my-10 gap-8"
+    class="flex flex-col md:flex-row justify-center md:justify-around my-10 gap-10"
   >
     <div>
-      <p class="text-white">Established in</p>
+      <p class="text-white text-base md:text-lg">Established in</p>
       <div
-        class="text-4xl font-extrabold bg-gradient-to-r from-[#52B0E4] to-[#F6E565] text-transparent bg-clip-text w-fit"
+        class="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-[#52B0E4] to-[#F6E565] text-transparent bg-clip-text w-fit"
       >
         2010
       </div>
     </div>
     <div>
-      <p class="text-white">Members Present</p>
+      <p class="text-white text-base md:text-lg">Members Present</p>
       <div
-        class="text-4xl font-extrabold bg-gradient-to-r from-[#F6E565] to-[#E94D4C] text-transparent bg-clip-text w-fit"
+        class="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-[#F6E565] to-[#E94D4C] text-transparent bg-clip-text w-fit"
       >
         <MemberNum client:load />
       </div>
     </div>
     <div>
-      <p class="text-white">Total Number of Repositories</p>
+      <p class="text-white text-base md:text-lg">
+        Total Number of Repositories
+      </p>
       <div
-        class="text-4xl font-extrabold bg-gradient-to-r from-[#E94D4C] to-[#B4D463] text-transparent bg-clip-text w-fit"
+        class="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-[#E94D4C] to-[#B4D463] text-transparent bg-clip-text w-fit"
       >
         <RepoNum client:load />
       </div>
@@ -38,7 +40,7 @@ import CommitLog from '@components/hook/statistics.CommitLog'
   </div>
   <div class="border border-solid border-white text-white rounded-md">
     <div
-      class="my-2 mx-4 md:my-3 md:mx-6 break-words whitespace-pre-wrap overflow-x-auto"
+      class="my-2 mx-4 md:my-3 md:mx-6 break-words whitespace-pre-wrap overflow-x-auto text-sm md:text-base"
     >
       <CommitLog client:load />
     </div>

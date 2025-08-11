@@ -4,12 +4,14 @@ const { name, iconUrl, description } = Astro.props
 
 <div class="grid grid-cols-1">
   <div class="m-auto">
-    <img class="w-[100px]" src={iconUrl} alt="" />
+    <img class="w-[120px] md:w-[140px]" src={iconUrl} alt="" />
   </div>
-  <div class="font-bold m-auto py-6">
+  <div class="font-bold m-auto py-4 text-xl md:text-2xl">
     {name}
   </div>
-  <div class="p-3">
+  <div
+    class="p-3 text-base md:text-lg leading-relaxed text-center md:text-left"
+  >
     {description}
   </div>
 </div>

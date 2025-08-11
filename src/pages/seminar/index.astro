@@ -5,10 +5,10 @@ import seminars from '@utils/seminars.ts'
 ---
 
 <Layout>
-  <article class="prose w-full flex flex-col p-[25px]">
+  <article class="prose prose-lg md:prose-xl w-full flex flex-col p-[25px]">
     <h2>Seminar</h2>
   </article>
-  <p class="px-[25px] pb-10">
+  <p class="px-[25px] pb-10 text-lg md:text-xl leading-relaxed">
     포애퍼는 <a href="#reg" class="underline">정기 세미나</a> 와 <a
       href="#irr"
       class="underline">정모 세미나</a
@@ -17,10 +17,10 @@ import seminars from '@utils/seminars.ts'
     있습니다!
   </p>
 
-  <article class="prose w-full flex flex-col p-[25px]">
+  <article class="prose prose-lg md:prose-xl w-full flex flex-col p-[25px]">
     <h3 id="reg">정기 세미나</h3>
   </article>
-  <p class="px-[25px] pb-10">
+  <p class="px-[25px] pb-10 text-lg md:text-xl leading-relaxed">
     정기 세미나는 3개월 동안 진행되며, 세미나를 통해 개발에 대한 기본기를 익힐
     수 있습니다. 프론트엔드, 백엔드, 모바일 세미나를 운영하고 있으며, 수요가
     있을 때는 고급 세미나를 열어 심화된 내용을 다루기도 합니다.
@@ -37,10 +37,10 @@ import seminars from '@utils/seminars.ts'
     </div>
   </div>
 
-  <article class="prose w-full flex flex-col p-[25px]">
+  <article class="prose prose-lg md:prose-xl w-full flex flex-col p-[25px]">
     <h3 id="irr">정모 세미나</h3>
   </article>
-  <p class="px-[25px] pb-10">
+  <p class="px-[25px] pb-10 text-lg md:text-xl leading-relaxed">
     포애퍼 정기 모임에서 개발 관련 이슈와 노하우 등을 공유하는 세미나 입니다.
     누구나 자발적으로 세미나를 진행할 수 있으며, 포애퍼 신규회원을 위한 개발
     입문 세미나와 코딩 테스트, 인턴십, 개발툴 등 다양한 주제를 다루고 있습니다.
@@ -48,7 +48,7 @@ import seminars from '@utils/seminars.ts'
 
   <div class="py-1/8 px-1/8">
     <div class="px-[25px]">
-      <ul class="list-disc ml-6">
+      <ul class="list-disc ml-6 text-lg md:text-xl leading-relaxed">
         {
           seminars.irregular_seminars.map((seminar) => {
             return (

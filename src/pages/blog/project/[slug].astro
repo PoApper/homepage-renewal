@@ -27,7 +27,7 @@ const { title, tags, postDate, writer, writer_email } = post.data
 <Layout>
   <div class="my-5">
     <div class="flex justify-evenly">
-      <article class="prose text-center">
+      <article class="prose prose-lg md:prose-xl text-center">
         <h2 class="m-[0px]">{title}</h2>
         <p class="m-[0px]">{postDate.toISOString().slice(0, 10)}</p>
         <a href={`mailto:${writer_email}`}>
@@ -47,8 +47,8 @@ const { title, tags, postDate, writer, writer_email } = post.data
     </div>
   </div>
 
-  <div class="flex justify-center font-sans">
-    <article class="prose text-xm">
+  <div class="flex justify-center">
+    <article class="prose prose-lg md:prose-xl max-w-none">
       <Content />
     </article>
   </div>

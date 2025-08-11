@@ -4,17 +4,17 @@ import Links from '@/utils/layout'
 
 <header class="sticky my-4 top-4 z-50">
   <nav
-    class="relative flex justify-start items-center mx-8 py-3 px-16 bg-gray-200/50 backdrop-blur-md rounded-[36px]"
+    class="relative flex justify-start items-center mx-8 py-4 px-16 bg-gray-200/50 backdrop-blur-md rounded-[36px]"
   >
     <a href="/" class="mr-auto invisible md:visible">
-      <img class="w-[120px]" src="/logo+name.svg" alt="Logo" />
+      <img class="w-[140px]" src="/logo+name.svg" alt="Logo" />
     </a>
-    <div class="absolute left-6 sm:left-12 md:relative md:left-0">
+    <div class="absolute left-6 sm:left-12 md:relative md:left-0 space-x-4">
       {
         Links.navBarLinks.map((link) => {
           return (
             <a
-              class="transision ease-in-out delay-100 duration-300 hover:text-[#FFFFFF] pr-[10px] font-bold underline"
+              class="transision ease-in-out delay-100 duration-300 hover:text-[#FFFFFF] pr-[10px] font-bold underline text-lg md:text-xl"
               href={link.url}
             >
               {link.name}
