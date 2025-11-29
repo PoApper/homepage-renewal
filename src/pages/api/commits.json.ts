@@ -1,10 +1,6 @@
 import type { APIRoute } from 'astro'
 import { Octokit } from '@octokit/rest'
 
-interface Event {
-  type: string
-}
-
 // 같은 Astro 서버 프로세스의 메모리에 캐시 저장
 // 이 변수는 24시간 또는 서버가 재시작될 때까지 유지됩니다
 let cache: {
@@ -39,13 +35,15 @@ export const GET: APIRoute = async () => {
 
     const res = await octokit.request('GET /orgs/poapper/events?per_page=10')
     console.log('[API] GitHub events fetched, total events:', res.data.length)
-    
+
     // 모든 이벤트 타입 로그 출력
     const eventTypes = res.data.map((event: any) => event.type)
     console.log('[API] All event types:', eventTypes)
 
     // PushEvent만 필터링 (PullRequestEvent는 커밋 정보가 없음)
-    const pushEvents = res.data.filter((event: any) => event.type === 'PushEvent')
+    const pushEvents = res.data.filter(
+      (event: any) => event.type === 'PushEvent'
+    )
 
     console.log('[API] PushEvents count:', pushEvents.length)
     if (pushEvents.length > 0) {

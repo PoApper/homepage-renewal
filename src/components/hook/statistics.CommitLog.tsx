@@ -19,11 +19,13 @@ const fetchCommitData = async (
     // 배열 체크를 먼저 수행 (commits.length 접근 전)
     if (!Array.isArray(commits)) {
       console.error('[Client] Response is not an array:', commits)
-      
+
       // Rate limit 에러 체크
       if (commits?.rateLimitExceeded) {
         console.error('[Client] Rate limit exceeded')
-        throw new Error('GitHub API rate limit exceeded. Please try again later.')
+        throw new Error(
+          'GitHub API rate limit exceeded. Please try again later.'
+        )
       }
 
       // 에러 응답 체크
