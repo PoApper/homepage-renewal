@@ -7,9 +7,9 @@ const fetchCommitData = async (
     console.log('[Client] Fetching commits from /api/commits.json')
     // 서버 API route를 통해 데이터 가져오기
     const res = await fetch('/api/commits.json')
-    
+
     console.log('[Client] Response status:', res.status, res.statusText)
-    
+
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`)
     }
@@ -78,14 +78,20 @@ const CommitLog = () => {
       ) : commitLog.length > 0 ? (
         <div className="space-y-4">
           {commitLog.map((commit, index) => (
-            <div key={index} className="pb-2 border-b border-white/20 last:border-b-0">
+            <div
+              key={index}
+              className="pb-2 border-b border-white/20 last:border-b-0"
+            >
               <div>commit {commit.sha}</div>
               <div>
-                Author: {commit.author?.name || 'Unknown'} ({commit.author?.email || 'Unknown'})
+                Author: {commit.author?.name || 'Unknown'} (
+                {commit.author?.email || 'Unknown'})
               </div>
               <div>{commit.message}</div>
               {index === commitLog.length - 1 && (
-                <div className="mt-2">poapper@postech ~ $ git log HEAD~1..HEAD</div>
+                <div className="mt-2">
+                  poapper@postech ~ $ git log HEAD~1..HEAD
+                </div>
               )}
             </div>
           ))}

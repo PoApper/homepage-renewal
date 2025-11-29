@@ -20,7 +20,10 @@ export const GET: APIRoute = async () => {
     // 캐시 확인
     const now = Date.now()
     if (cache && now - cache.timestamp < CACHE_DURATION) {
-      console.log('[API] Returning cached data, commits count:', cache.data.length)
+      console.log(
+        '[API] Returning cached data, commits count:',
+        cache.data.length
+      )
       return new Response(JSON.stringify(cache.data), {
         status: 200,
         headers: {
@@ -57,20 +60,30 @@ export const GET: APIRoute = async () => {
     const firstEvent = filteredEvents[0] as any
     console.log('[API] First event type:', firstEvent.type)
     console.log('[API] First event repo:', firstEvent.repo?.name)
-    console.log('[API] First event payload keys:', Object.keys(firstEvent.payload || {}))
-    
+    console.log(
+      '[API] First event payload keys:',
+      Object.keys(firstEvent.payload || {})
+    )
+
     let commits = firstEvent.payload?.commits || []
     console.log('[API] Initial commits from payload:', commits.length)
 
     // payload.commits가 없고 PushEvent인 경우, head와 before를 사용해서 커밋 가져오기
-    if (commits.length === 0 && firstEvent.type === 'PushEvent' && firstEvent.repo) {
-      const { head, before } = firstEvent.payload as { head?: string; before?: string }
-      
+    if (
+      commits.length === 0 &&
+      firstEvent.type === 'PushEvent' &&
+      firstEvent.repo
+    ) {
+      const { head, before } = firstEvent.payload as {
+        head?: string
+        before?: string
+      }
+
       if (head && before && firstEvent.repo.name) {
         try {
           const repoName = firstEvent.repo.name // "PoApper/homepage-renewal"
           const [owner, repo] = repoName.split('/')
-          
+
           // before와 head 사이의 커밋들 가져오기
           const compareRes = await octokit.request(
             'GET /repos/{owner}/{repo}/compare/{base}...{head}',
@@ -92,14 +105,21 @@ export const GET: APIRoute = async () => {
               email: commit.commit.author.email,
             },
           }))
-          
-          console.log(`[API] Fetched ${commits.length} commits from compare API`)
+
+          console.log(
+            `[API] Fetched ${commits.length} commits from compare API`
+          )
         } catch (compareError: any) {
-          console.error('[API] Failed to fetch commits from compare API:', compareError.message)
+          console.error(
+            '[API] Failed to fetch commits from compare API:',
+            compareError.message
+          )
           commits = []
         }
       } else {
-        console.log('[API] Cannot fetch from compare API - missing head, before, or repo name')
+        console.log(
+          '[API] Cannot fetch from compare API - missing head, before, or repo name'
+        )
       }
     }
 
@@ -119,18 +139,22 @@ export const GET: APIRoute = async () => {
       },
     })
   } catch (error: any) {
-    const isRateLimitError = error?.status === 403 || error?.message?.includes('rate limit')
-    
+    const isRateLimitError =
+      error?.status === 403 || error?.message?.includes('rate limit')
+
     if (isRateLimitError) {
       console.error('[API] GitHub API rate limit exceeded:', error.message)
       console.log('[API] Checking for cached data...')
     } else {
       console.error('[API] Failed to fetch commit data:', error.message)
     }
-    
+
     // 에러 발생 시 캐시가 있으면 캐시 반환
     if (cache) {
-      console.log('[API] Returning cached data due to error, commits count:', cache.data.length)
+      console.log(
+        '[API] Returning cached data due to error, commits count:',
+        cache.data.length
+      )
       return new Response(JSON.stringify(cache.data), {
         status: 200,
         headers: {
@@ -145,9 +169,9 @@ export const GET: APIRoute = async () => {
     if (isRateLimitError) {
       console.error('[API] Rate limit exceeded and no cache available')
       return new Response(
-        JSON.stringify({ 
+        JSON.stringify({
           error: 'GitHub API rate limit exceeded. Please try again later.',
-          rateLimitExceeded: true 
+          rateLimitExceeded: true,
         }),
         {
           status: 429,
@@ -170,4 +194,3 @@ export const GET: APIRoute = async () => {
     )
   }
 }
-
