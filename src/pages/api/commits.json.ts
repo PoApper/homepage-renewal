@@ -6,7 +6,7 @@ interface Event {
 }
 
 // 같은 Astro 서버 프로세스의 메모리에 캐시 저장
-// 이 변수는 서버가 재시작될 때까지 유지됩니다
+// 이 변수는 24시간 또는 서버가 재시작될 때까지 유지됩니다
 let cache: {
   data: any[]
   timestamp: number
@@ -39,14 +39,22 @@ export const GET: APIRoute = async () => {
 
     const res = await octokit.request('GET /orgs/poapper/events?per_page=10')
     console.log('[API] GitHub events fetched, total events:', res.data.length)
+    
+    // 모든 이벤트 타입 로그 출력
+    const eventTypes = res.data.map((event: any) => event.type)
+    console.log('[API] All event types:', eventTypes)
 
-    const filteredEvents = res.data.filter(
-      (event: Event) =>
-        event.type === 'PushEvent' || event.type === 'PullRequestEvent'
-    )
+    // PushEvent만 필터링 (PullRequestEvent는 커밋 정보가 없음)
+    const pushEvents = res.data.filter((event: any) => event.type === 'PushEvent')
 
-    if (filteredEvents.length === 0) {
-      console.log('[API] No PushEvent or PullRequestEvent found')
+    console.log('[API] PushEvents count:', pushEvents.length)
+    if (pushEvents.length > 0) {
+      console.log('[API] First PushEvent repo:', pushEvents[0].repo?.name)
+    }
+
+    if (pushEvents.length === 0) {
+      console.log('[API] No PushEvent found')
+      console.log('[API] Available event types:', [...new Set(eventTypes)])
       return new Response(JSON.stringify([]), {
         status: 200,
         headers: {
@@ -55,33 +63,27 @@ export const GET: APIRoute = async () => {
       })
     }
 
-    console.log('[API] Filtered events count:', filteredEvents.length)
-
-    const firstEvent = filteredEvents[0] as any
-    console.log('[API] First event type:', firstEvent.type)
-    console.log('[API] First event repo:', firstEvent.repo?.name)
+    // 첫 번째 PushEvent 사용
+    const pushEvent = pushEvents[0] as any
+    console.log('[API] Using PushEvent from repo:', pushEvent.repo?.name)
     console.log(
-      '[API] First event payload keys:',
-      Object.keys(firstEvent.payload || {})
+      '[API] PushEvent payload keys:',
+      Object.keys(pushEvent.payload || {})
     )
 
-    let commits = firstEvent.payload?.commits || []
+    let commits = pushEvent.payload?.commits || []
     console.log('[API] Initial commits from payload:', commits.length)
 
-    // payload.commits가 없고 PushEvent인 경우, head와 before를 사용해서 커밋 가져오기
-    if (
-      commits.length === 0 &&
-      firstEvent.type === 'PushEvent' &&
-      firstEvent.repo
-    ) {
-      const { head, before } = firstEvent.payload as {
+    // payload.commits가 없으면 head와 before를 사용해서 커밋 가져오기
+    if (commits.length === 0 && pushEvent.repo) {
+      const { head, before } = pushEvent.payload as {
         head?: string
         before?: string
       }
 
-      if (head && before && firstEvent.repo.name) {
+      if (head && before && pushEvent.repo.name) {
         try {
-          const repoName = firstEvent.repo.name // "PoApper/homepage-renewal"
+          const repoName = pushEvent.repo.name // "PoApper/homepage-renewal"
           const [owner, repo] = repoName.split('/')
 
           // before와 head 사이의 커밋들 가져오기
