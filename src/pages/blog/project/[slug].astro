@@ -39,7 +39,7 @@ const { title, tags, postDate, writer, writer_email } = post.data
     <div class="flex justify-center my-2">
       <p>
         {
-          tags.map((tag) => {
+          tags.map((tag: string) => {
             return <BlogTag tag={tag} />
           })
         }

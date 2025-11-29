@@ -22,7 +22,7 @@ const projectPosts = await getCollection('project')
       projectPosts.map((post) => (
         <li class="hover:underline mb-2">
           <a href={`/blog/project/${post.slug}`}>
-            [{post.data.postDate.toISOString().slice(0, 10)}]{post.data.title}
+            [{post.data.postDate.toISOString().slice(0, 10)}] {post.data.title}
             by {post.data.writer}
           </a>
         </li>
