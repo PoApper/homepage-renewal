@@ -16,7 +16,7 @@ writer_email: 'khkim6040@postech.ac.kr'
   ): Promise<{ sendMessage: boolean; room: RoomWithUsersDto }> {
     const room = await this.findOne(uuid);
 
-    // 문제 상황: 정원 4명 중 3명이 찬 상태에서 
+    // 문제 상황: 정원 4명 중 3명이 찬 상태에서
     // 두 명이 동시에 입장 요청하면?
     if (!roomUser && room.currentParticipant == room.maxParticipant) {
       throw new BadRequestException('정원이 가득 찼습니다.');
@@ -64,27 +64,27 @@ writer_email: 'khkim6040@postech.ac.kr'
 락도 동시에 취득한다면? 그렇게 되면 또 동시성 문제가 생길 수 있다.  
 걱정과 다르게 락은 마음 편하게 사용할 수 있다. 하드웨어 수준에서 동시성이 발생하지 않도록 구현되어 있기 때문이다. 물론 락을 걸어도 두 트랜잭션이 서로가 가진 락을 기다리게 되는 교착 상태(deadlock) 가 발생할 수 있다. 이때는 DB가 자동으로 한쪽 트랜잭션을 강제 롤백시킨다.
 
-예약, 입장 등 공간, 수량이 한정된 부분의 로직을 짤 때는 데이터 삽입의 일관성뿐만 아니라 여러명이 동시에 요청했을 때 어떻게 핸들링해야 하는지 동시성 문제도 염두해 두어야 한다.  
+예약, 입장 등 공간, 수량이 한정된 부분의 로직을 짤 때는 데이터 삽입의 일관성뿐만 아니라 여러명이 동시에 요청했을 때 어떻게 핸들링해야 하는지 동시성 문제도 염두해 두어야 한다.
 
-앞선 최악의 4번 상황은 DB 동시성 문제 중 **Lost Update(갱신 분실)** 로 불린다. 두 트랜잭션이 같은 데이터를 읽고 각각 수정한 뒤 커밋하면, 나중에 커밋된 트랜잭션이 먼저 커밋된 결과를 덮어쓴다.  
+앞선 최악의 4번 상황은 DB 동시성 문제 중 **Lost Update(갱신 분실)** 로 불린다. 두 트랜잭션이 같은 데이터를 읽고 각각 수정한 뒤 커밋하면, 나중에 커밋된 트랜잭션이 먼저 커밋된 결과를 덮어쓴다.
 
-DB 쪽도 동시성 문제를 당연히 알고 있고, 읽기 수준과 쓰기 수준에서 제공하는 서비스들이 있다. DBMS는 동시성 문제를 제어하기 위해 트랜잭션 격리 수준(isolation level) 을 제공한다. 이는 읽기 및 쓰기 시점에 얼마나 엄격하게 다른 트랜잭션의 변경을 차단할지를 결정한다. MySQL, Postgres 등 DBMS마다 기본 정책이 조금씩 다르다. 
+DB 쪽도 동시성 문제를 당연히 알고 있고, 읽기 수준과 쓰기 수준에서 제공하는 서비스들이 있다. DBMS는 동시성 문제를 제어하기 위해 트랜잭션 격리 수준(isolation level) 을 제공한다. 이는 읽기 및 쓰기 시점에 얼마나 엄격하게 다른 트랜잭션의 변경을 차단할지를 결정한다. MySQL, Postgres 등 DBMS마다 기본 정책이 조금씩 다르다.
 
-| 격리 수준 | 방지하는 문제 | 설명 |
-|---------|------------|------|
-| READ UNCOMMITTED | 없음 | Dirty Read 허용, 가장 느슨함 |
-| READ COMMITTED | Dirty Read | 커밋된 데이터만 읽기, 대부분의 DB 기본값 |
-| REPEATABLE READ | Dirty Read, Non-repeatable Read | 트랜잭션 내 일관된 읽기, MySQL 기본값 |
-| SERIALIZABLE | Dirty Read, Non-repeatable Read, Phantom Read | 완전한 격리, 느리지만 가장 안전 |
+| 격리 수준        | 방지하는 문제                                 | 설명                                     |
+| ---------------- | --------------------------------------------- | ---------------------------------------- |
+| READ UNCOMMITTED | 없음                                          | Dirty Read 허용, 가장 느슨함             |
+| READ COMMITTED   | Dirty Read                                    | 커밋된 데이터만 읽기, 대부분의 DB 기본값 |
+| REPEATABLE READ  | Dirty Read, Non-repeatable Read               | 트랜잭션 내 일관된 읽기, MySQL 기본값    |
+| SERIALIZABLE     | Dirty Read, Non-repeatable Read, Phantom Read | 완전한 격리, 느리지만 가장 안전          |
 
-실제로 이 문제를 해결하려면 `findOne` 시점에 `FOR UPDATE` 락을 걸거나, `currentParticipant` 업데이트 시 낙관적 락(Optimistic Lock)을 사용하는 등의 동시성 제어 방법이 필요하다.  
+실제로 이 문제를 해결하려면 `findOne` 시점에 `FOR UPDATE` 락을 걸거나, `currentParticipant` 업데이트 시 낙관적 락(Optimistic Lock)을 사용하는 등의 동시성 제어 방법이 필요하다.
 
 다음에는 이 내용을 바탕으로 코드를 수정하고 실제로 어떻게 문제를 해결했는지, 동시성 관련 테스트 코드는 어떻게 작성하는지 공유해 보겠다.
 
+#### 함께 읽으면 좋을 포스트
 
-#### 함께 읽으면 좋을 포스트  
 https://ruempler.eu/2024/11/25/solutions-to-the-lost-update-problem/
 
-문제가 되었던 lost update를 방지하기 위한 세 가지 방법을 알려준다.   
+문제가 되었던 lost update를 방지하기 위한 세 가지 방법을 알려준다.  
 주목할 부분은 isolation level은 SQL에서 Dirty Read, Non-repeatable Read, Phantom Read를 막기 위한 단계들을 정한 약속일 뿐이라는 것이다.  
 lost update는 이 약속에 속해있지 않으므로 DBMS마다 lost update를 막는 레벨은 상이할 수 있다. Postgres는 repeateble read에서 막아지고, mysql은 serializable까지 가야 막아진다.

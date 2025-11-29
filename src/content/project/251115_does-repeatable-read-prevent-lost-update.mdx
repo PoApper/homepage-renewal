@@ -10,9 +10,9 @@ DB Isolation Level은 네 가지가 있다. 그 중 Repeatable Read(RR)는 트�
 
 Lost Update라는 동시성 문제가 있다. 트랜잭션 A, B가 같은 데이터를 변경할 때, 둘 다 같은 값을 읽고 다른 방법으로 업데이트를 한 후 커밋을 했을 때 마지막에 커밋 한 트랜잭션이 먼저 커밋한 트랜잭션을 덮어 쓰는 문제다. 여기서 문제:
 
-**Q.** Lost Update는 Repeatable Read를 보장하는 DB 시스템에서 발생하지 않음이 보장될까? 
+**Q.** Lost Update는 Repeatable Read를 보장하는 DB 시스템에서 발생하지 않음이 보장될까?
 
-**A.** 트랜잭션 B가 트랜잭션 A의 데이터를 덮어쓰는 상황을 가정해보자. Repeatable Read의 정의에 의해 마지막에 커밋하는 트랜잭션 B가 커밋하기 전에 데이터를 읽는다고 할 때, 이 데이터는 A 의해 변경된 상태가 아니어야 한다. 그런데 B가 A의 수정 사항을 덮어쓰기 위해서는 A가 B보다 무조건 먼저 커밋해야 한다. 그렇다는 말은 B 트랜잭션이 커밋하기 전 데이터가 A에 의해 변경되는 순간이 생긴다. 이는 Repeatable Read에 위배되므로 B 트랜잭션은 롤백될 것이다. 그렇다면 Lost Update도 발생하지 않을 것이다. 
+**A.** 트랜잭션 B가 트랜잭션 A의 데이터를 덮어쓰는 상황을 가정해보자. Repeatable Read의 정의에 의해 마지막에 커밋하는 트랜잭션 B가 커밋하기 전에 데이터를 읽는다고 할 때, 이 데이터는 A 의해 변경된 상태가 아니어야 한다. 그런데 B가 A의 수정 사항을 덮어쓰기 위해서는 A가 B보다 무조건 먼저 커밋해야 한다. 그렇다는 말은 B 트랜잭션이 커밋하기 전 데이터가 A에 의해 변경되는 순간이 생긴다. 이는 Repeatable Read에 위배되므로 B 트랜잭션은 롤백될 것이다. 그렇다면 Lost Update도 발생하지 않을 것이다.
 
 라고 생각했었다.  
 과연 맞나? **아니다.**
@@ -37,19 +37,21 @@ SQL 표준 명세에 의하면 RR은 Non-Repeatable Read만 막으면 된다. Lo
 
 ### PostgreSQL: RR에서 Lost Update를 막음
 
-Postgres는 RR 수준에서 **MVCC 기반 write-write conflict 검증**을 수행한다. UPDATE 시점에 해당 tuple의 MVCC 버전을 확인해서, 이미 다른 트랜잭션이 수정 중이거나 수정을 완료한 경우 serialization failure를 발생시켜 트랜잭션을 abort한다. 
+Postgres는 RR 수준에서 **MVCC 기반 write-write conflict 검증**을 수행한다. UPDATE 시점에 해당 tuple의 MVCC 버전을 확인해서, 이미 다른 트랜잭션이 수정 중이거나 수정을 완료한 경우 serialization failure를 발생시켜 트랜잭션을 abort한다.
 
 이것은 RR이어서가 아니라 **PostgreSQL의 MVCC 구현 방식** 때문이다. PostgreSQL의 RR은 Snapshot Isolation(SI)으로 구현되어 있고, SI는 쓰기에서 write conflict를 감지하고 대처할 수 있다.
 
 ### MySQL: RR에서 Lost Update를 못 막음
 
-처음에 생각했던 문제와 같은 상황이다. 
+처음에 생각했던 문제와 같은 상황이다.
 
 MySQL(InnoDB)의 RR은 아래와 같이 동작한다.
+
 - 읽기 시: 스냅샷 기반 consistent read
 - UPDATE 시: row-level lock을 잡긴 하지만, 읽기 스냅샷이 두 트랜잭션을 이미 분리시켜 놓았기 때문에 write-write conflict를 감지하지 못한다
 
 따라서 아래와 같은 Lost Update 상황이 발생할 수 있다:
+
 ```sql
 A: SELECT balance FROM account WHERE id=1;  --> 100
 B: SELECT balance FROM account WHERE id=1;  --> 100
@@ -77,12 +79,12 @@ MySQL의 RR 수준에서 Lost Update를 막으려면 어플리케이션 레벨�
 
 3. Isolation Level을 Serializable로 상향
    - 가장 강력하지만, 쿼리가 거의 직렬화되어 성능 손해를 많이 보게 됨
-      - 이것도 구현마다 다른데, MySQL은 SELECT까지도 락을 걸어 정말 직렬화가 되지만, PostgreSQL은 이렇게까지 하지는 않고 내부적으로 충돌이 일어날 때만 abort를 해서 그렇게 느려지진 않다고 함
+     - 이것도 구현마다 다른데, MySQL은 SELECT까지도 락을 걸어 정말 직렬화가 되지만, PostgreSQL은 이렇게까지 하지는 않고 내부적으로 충돌이 일어날 때만 abort를 해서 그렇게 느려지진 않다고 함
 
 ## 결론
 
-**RR은 SQL 표준상 Lost Update를 방지할 책임이 없다.** PostgreSQL은 자체 구현으로 이를 막지만, MySQL은 막지 않는다. 
+**RR은 SQL 표준상 Lost Update를 방지할 책임이 없다.** PostgreSQL은 자체 구현으로 이를 막지만, MySQL은 막지 않는다.
 
-같은 Isolation Level 이름이라도, DBMS 구현 방식에 따라 보장하는 동시성 제어 범위는 완전히 달랐다. 여기서는 MySQL과 PostgreSQL 만 봤지만 Oracle이나 SQL Server의 구현은 또 다를 것이고, 격리 수준별로 또 다를 것이다. 
+같은 Isolation Level 이름이라도, DBMS 구현 방식에 따라 보장하는 동시성 제어 범위는 완전히 달랐다. 여기서는 MySQL과 PostgreSQL 만 봤지만 Oracle이나 SQL Server의 구현은 또 다를 것이고, 격리 수준별로 또 다를 것이다.
 
 데이터 정합성이 중요한 비즈니스 로직이라면, 사용하는 DBMS가 어떤 방식으로 동시성을 제어하는지 정확히 이해하고, 필요하다면 명시적인 락 전략을 사용해야 한다.
