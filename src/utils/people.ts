@@ -1,4 +1,7 @@
-const junior = [{ githubId: '0917ba', tag: [''] }]
+const junior = [
+  { githubId: '0917ba', tag: [''] },
+  { githubId: 'seosanji', tag: [''] },
+]
 
 const senior = [
   { githubId: 'sohnryang', tag: ['systems'] },
