@@ -1,6 +1,6 @@
 const junior = [
   { githubId: '0917ba', tag: [''] },
-  { githubId: 'seosanji', tag: [''] }
+  { githubId: 'seosanji', tag: [''] },
 ]
 
 const senior = [
