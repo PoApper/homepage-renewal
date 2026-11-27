@@ -11,6 +11,7 @@ const senior = [
   { githubId: 'kce0622', tag: [''] },
   { githubId: 'BlueHorn07', tag: ['K8s_Lover', 'opensource_contributor'] },
   { githubId: 'hyojeongyunn', tag: [''] },
+  { githubId: 'hegelty', tag: [''] },
 ]
 
 export default {

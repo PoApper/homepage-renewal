@@ -22,7 +22,7 @@ const footerLinks = [
     links: [
       { name: 'Gmail', url: 'poapper@gmail.com' },
       {
-        name: '포항시 남구 청암로 77 학생회관 211호',
+        name: '포항시 남구 청암로 77 학생회관 103-2호',
         url: 'https://www.postech.ac.kr',
       },
     ],
